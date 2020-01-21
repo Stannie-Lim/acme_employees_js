@@ -137,27 +137,33 @@ spacer('');
 
 // ############################################################################### generate tree
 
-const generateTreeHelper = (employee, tree) => {
-	if(employee.managerId === tree.id) {
-		return employee;
-	} else {
-		return null;
-	}
-}	
+const generateTreeHelper = (employee, list) => {
+
+}
 
 const generateManagementTree = (array) => {
 	let tree = {};
 	let list = JSON.parse(JSON.stringify(array));
+	const ceo = array.find(function(employee) { 
+		if(employee.managerId === undefined) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+	tree = {...ceo};
+	tree.reports = generateTreeHelper(ceo);
+
+	/*
 	for(let i = 0; i < list.length; i++) {
 		list[i].reports = [];
 		if(list[i].managerId === undefined) {
 			tree = list[i];
 		} 
-		if(generateTreeHelper(list[i], tree) !== null) {
-			tree.reports.push(generateTreeHelper(list[i], tree));
-		}
+		tree.reports = findCoworkersFor(list[i], list);
+		tree.reports.push(list[i]);
 	}
-
+*/
     return tree;
 }
 
@@ -226,8 +232,12 @@ spacer('');
 // ############################################################################### display tree 
 
 const displayManagementTree = (list) => {
-	if(list.reports === []) {
-		return;
+	let dash = '-';
+	console.log(list.name);
+	for(let i = 1; i < list.length; i++) {
+		if(list.reports[i] !== undefined) {
+			console.log(dash + list.reports[i].name);
+		}
 	}
 }
 
