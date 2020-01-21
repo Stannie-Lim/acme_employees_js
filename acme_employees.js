@@ -225,8 +225,10 @@ spacer('');
 
 // ############################################################################### display tree 
 
-const displayManagementTree = (array) => {
-	
+const displayManagementTree = (list) => {
+	if(list.reports === []) {
+		return;
+	}
 }
 
 spacer('displayManagementTree')
