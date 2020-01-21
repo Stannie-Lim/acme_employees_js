@@ -1,4 +1,4 @@
-// ################# NOT DONE YET. ONLY HANDING THIS IN JUST IN CASE I FORGET TO FINISH LATER
+// ################# NOT DONE YET. ONLY HANDING THIS IN JUST IN CASE I DONT HAVE TIME TO FINISH LATER
 
 const employees = [
   { id: 1, name: 'moe'},
@@ -55,7 +55,7 @@ const findManagerFor = (employee, array) => {
             if(array[i].id === employee.managerId) {
                 return array[i];
             }
-        }
+		}
     }
 }   
 
@@ -99,16 +99,9 @@ spacer('');
 
 // ############################################################################### find management 
 /*
-    @params the employee to find manager for, array of data
-    @return 
+    @params the employee to find management chain for, array of data
+    @return management chain
 */
-const findManagementHelper = (employee, array) => {
-    if(employee.managerId === undefined) {
-        return undefined;
-    } else {
-        return findManagerFor(employee, array);
-    }
-}
 
 const findManagementChainForEmployee = (employee, array) => {
     let management = [];
@@ -119,8 +112,8 @@ const findManagementChainForEmployee = (employee, array) => {
     let manager1 = findManagerFor(manager, array);
     management.push(findManagerFor(manager1, array));
     */
-    while(findManagementHelper(employee, array) !== undefined) {
-        management.unshift(findManagementHelper(employee, array));
+    while(findManagerFor(employee, array) !== undefined) {
+        management.unshift(findManagerFor(employee, array));
         employee = findManagerFor(employee, array);
     }
 
@@ -144,23 +137,27 @@ spacer('');
 
 // ############################################################################### generate tree
 
-const generateTreeHelper = (employee, array, tree) => {
-	if(employee.managerId === undefined) {
+const generateTreeHelper = (employee, tree) => {
+	if(employee.managerId === tree.id) {
 		return employee;
 	} else {
-		//tree.push(generateTreeHelper(
+		return null;
 	}
 }	
 
 const generateManagementTree = (array) => {
-    let tree = {};
-    for(let i = 0; i < array.length; i++) {
-		if(array[i].managerId === undefined) {
-			tree = array[i];
-			tree.reports = [];
+	let tree = {};
+	let list = JSON.parse(JSON.stringify(array));
+	for(let i = 0; i < list.length; i++) {
+		list[i].reports = [];
+		if(list[i].managerId === undefined) {
+			tree = list[i];
+		} 
+		if(generateTreeHelper(list[i], tree) !== null) {
+			tree.reports.push(generateTreeHelper(list[i], tree));
 		}
 	}
-	
+
     return tree;
 }
 
@@ -229,7 +226,7 @@ spacer('');
 // ############################################################################### display tree 
 
 const displayManagementTree = (array) => {
-
+	
 }
 
 spacer('displayManagementTree')
