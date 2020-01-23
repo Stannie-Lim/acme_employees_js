@@ -1,5 +1,3 @@
-// ################# NOT DONE YET. ONLY HANDING THIS IN JUST IN CASE I DONT HAVE TIME TO FINISH LATER
-
 const employees = [
   { id: 1, name: 'moe'},
   { id: 2, name: 'larry', managerId: 1},
@@ -251,7 +249,7 @@ spacer('');
 /*
 	@params the branch of the tree's reports, number of dashes 
 	@return nothing, just console.logs stuff
-	
+
 */
 const displayManagementTree = (tree, numDashes = 0) => {
 	let str = "";
