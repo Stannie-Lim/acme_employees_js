@@ -137,23 +137,41 @@ spacer('');
 
 // ############################################################################### generate tree
 
+/*
+	@params employee to find the reports for, list of employees
+	@return the management tree of the employee
+	recursively calculates the chain of command of the company
+*/
 const generateTreeHelper = (employee, list) => {
+	const reports = list.filter(employ => employ.managerId === employee.id && employ.id !== employee.id);
 
+	//base case
+	if(reports.length === 0) {
+		return [];
+	
+	//recursive step
+	} else {
+		let newReports = reports.map(report => {
+			return {
+				...report, 
+				reports: generateTreeHelper(report, list)
+			}
+		});
+		return newReports;
+	}
 }
 
+/*
+	@params just the list of employees
+	@return the entire tree
+	driver function for generate tree
+*/
 const generateManagementTree = (array) => {
-	let tree = {};
 	let list = JSON.parse(JSON.stringify(array));
-	const ceo = array.find(function(employee) { 
-		if(employee.managerId === undefined) {
-			return true;
-		} else {
-			return false;
-		}
+	let ceo = list.filter(employee => {
+		return employee.managerId === undefined;
 	});
-	tree = {...ceo};
-	tree.reports = generateTreeHelper(ceo);
-
+	return generateTreeHelper(ceo, list)[0];
 	/*
 	for(let i = 0; i < list.length; i++) {
 		list[i].reports = [];
@@ -164,7 +182,6 @@ const generateManagementTree = (array) => {
 		tree.reports.push(list[i]);
 	}
 */
-    return tree;
 }
 
 spacer('generateManagementTree')
@@ -231,13 +248,24 @@ spacer('');
 
 // ############################################################################### display tree 
 
-const displayManagementTree = (list) => {
-	let dash = '-';
-	console.log(list.name);
-	for(let i = 1; i < list.length; i++) {
-		if(list.reports[i] !== undefined) {
-			console.log(dash + list.reports[i].name);
-		}
+/*
+	@params the branch of the tree's reports, number of dashes 
+	@return nothing, just console.logs stuff
+	
+*/
+const displayManagementTree = (tree, numDashes = 0) => {
+	let str = "";
+	let dashes = '-';
+	for(let i = 0; i < numDashes; i++) {
+		str += dashes;
+	}
+	console.log(`${str}${tree.name}`);
+	if(tree.reports.length === 0) {
+		return;
+	} else {
+		tree.reports.forEach(report => {
+			displayManagementTree(report, numDashes + 1);
+		});
 	}
 }
 
