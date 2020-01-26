@@ -31,6 +31,8 @@ const findEmployeeByName = (name, array) => {
         }
     }
 }
+//[pk] good! this is a good use case for "filter" though
+
 
 spacer('findEmployeeByName Moe')
 // given a name and array of employees, return employee
@@ -55,7 +57,8 @@ const findManagerFor = (employee, array) => {
             }
 		}
     }
-}   
+} 
+//[pk] good! same as above
 
 spacer('findManagerFor Shep Jr')
 //given an employee and a list of employees, return the employee who is the manager
@@ -82,6 +85,7 @@ const findCoworkersFor = (employee, array) => {
     }
     return coworkers;
 }
+//[pk] nice! check out "filter" for a less verbose approach
 
 spacer('findCoworkersFor Larry')
 
@@ -117,6 +121,7 @@ const findManagementChainForEmployee = (employee, array) => {
 
     return management;
 }
+//[pk] good! one way to definitely improve performance would be to call "findManagerFor" just once, and save it to a variable, rather than calling it 3x per loop
 
 spacer('findManagementChain for moe')
 //given an employee and a list of employees, return a the management chain for that employee. The management chain starts from the employee with no manager with the passed in employees manager 
@@ -146,7 +151,8 @@ const generateTreeHelper = (employee, list) => {
 	//base case
 	if(reports.length === 0) {
 		return [];
-	
+	//[pk] good thinking using a base case! but actually, if you took this out, the function would work exactly the same!
+		
 	//recursive step
 	} else {
 		let newReports = reports.map(report => {
@@ -166,6 +172,7 @@ const generateTreeHelper = (employee, list) => {
 */
 const generateManagementTree = (array) => {
 	let list = JSON.parse(JSON.stringify(array));
+	//[pk] what's with this parsing and unparsing?
 	let ceo = list.filter(employee => {
 		return employee.managerId === undefined;
 	});
@@ -181,6 +188,7 @@ const generateManagementTree = (array) => {
 	}
 */
 }
+//[pk] very good!
 
 spacer('generateManagementTree')
 //given a list of employees, generate a tree like structure for the employees, starting with the employee who has no manager. 
@@ -266,6 +274,7 @@ const displayManagementTree = (tree, numDashes = 0) => {
 		});
 	}
 }
+//[pk] great!!
 
 spacer('displayManagementTree')
 //given a tree of employees, generate a display which displays the hierarchy
